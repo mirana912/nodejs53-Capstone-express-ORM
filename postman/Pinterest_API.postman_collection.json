@@ -1,0 +1,345 @@
+{
+  "info": {
+    "name": "Pinterest Clone API",
+    "description": "API Backend cho dự án Pinterest Clone - Capstone NodeJS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"mat_khau\": \"123456\",\n  \"ho_ten\": \"Nguyen Van A\",\n  \"tuoi\": 25\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"mat_khau\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "item": [
+        {
+          "name": "Get All Images",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/images",
+              "host": ["{{base_url}}"],
+              "path": ["images"]
+            }
+          }
+        },
+        {
+          "name": "Search Images",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/images/search?name=sunset",
+              "host": ["{{base_url}}"],
+              "path": ["images", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "sunset"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Image By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/images/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Comments By Image ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/images/1/comments",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1", "comments"]
+            }
+          }
+        },
+        {
+          "name": "Check Image Saved",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/1/saved",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1", "saved"]
+            }
+          }
+        },
+        {
+          "name": "Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noi_dung\": \"Bức ảnh rất đẹp!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/images/1/comments",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1", "comments"]
+            }
+          }
+        },
+        {
+          "name": "Save Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/1/save",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1", "save"]
+            }
+          }
+        },
+        {
+          "name": "Unsave Image",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/1/save",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1", "save"]
+            }
+          }
+        },
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "hinh_anh",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "ten_hinh",
+                  "value": "Beautiful Sunset",
+                  "type": "text"
+                },
+                {
+                  "key": "mo_ta",
+                  "value": "A beautiful sunset view",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/images",
+              "host": ["{{base_url}}"],
+              "path": ["images"]
+            }
+          }
+        },
+        {
+          "name": "Delete Image",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/images/1",
+              "host": ["{{base_url}}"],
+              "path": ["images", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get User Saved Images",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/1/saved-images",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1", "saved-images"]
+            }
+          }
+        },
+        {
+          "name": "Get User Created Images",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/1/created-images",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1", "created-images"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ho_ten\": \"Nguyen Van A Updated\",\n  \"tuoi\": 26\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
