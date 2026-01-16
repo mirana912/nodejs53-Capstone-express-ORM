@@ -9,7 +9,7 @@ class ImageController {
   // Lấy danh sách ảnh
   async getAllImages(req, res, next) {
     try {
-      const image = await imageService.getAllImages();
+      const images = await imageService.getAllImages();
       return ResponseUtil.success(res, images, "Lấy danh sách ảnh thành công");
     } catch (error) {
       next(error);
