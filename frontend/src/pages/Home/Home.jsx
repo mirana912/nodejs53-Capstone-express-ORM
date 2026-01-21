@@ -38,7 +38,10 @@ const Home = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-[#E60023]"></div>
+          <p className="text-gray-500">Đang tải...</p>
+        </div>
       </div>
     );
   }
@@ -52,17 +55,19 @@ const Home = () => {
   }
 
   return (
-    <div className="max-w-[1920px] mx-auto px-4 py-6">
-      {searchQuery && (
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">
-            Kết quả tìm kiếm cho "{searchQuery}"
-          </h1>
-          <p className="text-gray-600 mt-1">{images.length} kết quả</p>
-        </div>
-      )}
+    <div className="min-h-screen bg-white">
+      <div className="max-w-480 mx-auto px-4 py-6">
+        {searchQuery && (
+          <div className="mb-6">
+            <h1 className="text-2xl font-semibold">
+              Kết quả cho "{searchQuery}"
+            </h1>
+            <p className="text-gray-600 mt-1">{images.length} kết quả</p>
+          </div>
+        )}
 
-      <MasonryGrid images={images} />
+        <MasonryGrid images={images} />
+      </div>
     </div>
   );
 };

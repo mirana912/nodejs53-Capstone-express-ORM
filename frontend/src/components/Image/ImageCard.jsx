@@ -7,7 +7,7 @@ const ImageCard = ({ image }) => {
   return (
     <Link
       to={`/image/${image.hinh_id}`}
-      className="group block relative overflow-hidden rounded-2xl cursor-zoom-in"
+      className="group block relative overflow-hidden rounded-2xl cursor-pointer mb-4 break-inside-avoid"
     >
       <img
         src={getImageUrl(image.duong_dan)}
@@ -16,14 +16,33 @@ const ImageCard = ({ image }) => {
         loading="lazy"
       />
 
-      {/* Overlay on hover */}
-      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300">
-        <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-          <h3 className="font-semibold text-lg mb-1 line-clamp-2">
-            {image.ten_hinh}
-          </h3>
+      {/* Overlay on hover - chỉ hiện khi hover */}
+      <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex flex-col justify-between p-4">
+        {/* Top buttons - hidden by default */}
+        <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <button className="px-4 py-2 bg-[#E60023] text-white rounded-full font-semibold hover:bg-[#AD081B] transition text-sm">
+            Lưu
+          </button>
+        </div>
+
+        {/* Bottom info */}
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {image.mo_ta && (
+            <p className="text-white text-sm mb-2 line-clamp-2">
+              {image.mo_ta}
+            </p>
+          )}
           {image.nguoi_tao && (
-            <p className="text-sm opacity-90">{image.nguoi_tao.ho_ten}</p>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                <span className="text-white text-xs font-semibold">
+                  {image.nguoi_tao.ho_ten?.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <span className="text-white text-sm font-medium">
+                {image.nguoi_tao.ho_ten}
+              </span>
+            </div>
           )}
         </div>
       </div>
